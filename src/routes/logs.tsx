@@ -1,12 +1,11 @@
-import { getDownloadUrl } from "@vercel/blob";
 import type { Route } from "../../.react-router/types/src/routes/+types.logs";
 import { Navbar } from "~/components/Navbar";
 import { Footer } from "~/components/Footer";
 
 export async function loader({ request }: Route.LoaderArgs) {
   try {
-    const url = await getDownloadUrl("ctx.log");
-    console.log("Blob download URL:", url);
+    // Construct URL for public blob
+    const url = `https://blob.vercelusercontent.com/ctx.log`;
 
     const response = await fetch(url);
     if (!response.ok) {
