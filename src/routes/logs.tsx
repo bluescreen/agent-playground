@@ -1,21 +1,25 @@
+import { list } from "@vercel/blob";
 import type { Route } from "../../.react-router/types/src/routes/+types.logs";
 import { Navbar } from "~/components/Navbar";
 import { Footer } from "~/components/Footer";
 
 export async function loader({ request }: Route.LoaderArgs) {
   try {
-    // Construct URL for public blob
-    const url = `https://blob.vercelusercontent.com/ctx.log`;
+    const { blobs } = await list({ prefix: "ctx.log" });
+    const blob = blobs[0];
+    if (!blob) return { logs: [] };
 
-    const response = await fetch(url);
+    const response = await fetch(blob.url, {
+      headers: {
+        Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
+      },
+    });
+
     if (!response.ok) {
-      console.log("Blob fetch failed:", response.status);
       return { logs: [] };
     }
 
     const content = await response.text();
-    console.log("Blob content length:", content.length);
-
     const lines = content
       .split("\n")
       .filter((line) => line.trim())
@@ -27,7 +31,6 @@ export async function loader({ request }: Route.LoaderArgs) {
         };
       });
 
-    console.log("Parsed logs count:", lines.length);
     return { logs: lines.reverse() };
   } catch (error) {
     console.error("Error fetching logs:", error);
