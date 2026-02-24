@@ -10,23 +10,32 @@ async function logCtx(ctx: string | null) {
     let currentContent = "";
     try {
       const downloadUrl = await getDownloadUrl(BLOB_KEY);
-      const response = await fetch(downloadUrl);
+      console.log("Download URL:", downloadUrl);
+      const response = await fetch(downloadUrl, {
+        headers: {
+          Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
+        },
+      });
       if (response.ok) {
         currentContent = await response.text();
+        console.log("Read existing content, length:", currentContent.length);
+      } else {
+        console.log("No existing blob, starting fresh");
       }
     } catch (error) {
-      // First write or blob doesn't exist yet
-      console.log("No existing blob found, starting fresh");
+      console.log("Error reading blob:", error);
     }
 
     // Append new log line
     const line = `[${new Date().toISOString()}] ${ctx}\n`;
     const newContent = currentContent + line;
 
-    // Write to blob (private)
-    await put(BLOB_KEY, newContent, {
-      access: "private",
+    // Write to blob (public for easier reading)
+    const result = await put(BLOB_KEY, newContent, {
+      access: "public",
+      addRandomSuffix: false,
     });
+    console.log("Blob written:", result);
   } catch (error) {
     console.error("Failed to write to blob:", error);
   }

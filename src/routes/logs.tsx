@@ -1,15 +1,14 @@
-import { getDownloadUrl } from "@vercel/blob";
 import type { Route } from "../../.react-router/types/src/routes/+types.logs";
 import { Navbar } from "~/components/Navbar";
 import { Footer } from "~/components/Footer";
 
-const BLOB_KEY = "ctx.log";
+const BLOB_URL = `https://${process.env.BLOB_STORE_ID}.public.blob.vercelusercontent.com/ctx.log`;
 
 export async function loader({ request }: Route.LoaderArgs) {
   try {
-    const downloadUrl = await getDownloadUrl(BLOB_KEY);
-    const response = await fetch(downloadUrl);
+    const response = await fetch(BLOB_URL);
     if (!response.ok) {
+      console.log("Blob not found or not accessible");
       return { logs: [] };
     }
 
@@ -27,6 +26,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 
     return { logs: lines.reverse() };
   } catch (error) {
+    console.error("Error fetching logs:", error);
     return { logs: [] };
   }
 }
