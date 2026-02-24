@@ -1,4 +1,4 @@
-import { put, get } from "@vercel/blob";
+import { put, getDownloadUrl } from "@vercel/blob";
 import type { Route } from "../../.react-router/types/src/routes/+types.ping";
 
 const BLOB_KEY = "ctx.log";
@@ -9,12 +9,14 @@ async function logCtx(ctx: string | null) {
     // Read current logs
     let currentContent = "";
     try {
-      const blob = await get(BLOB_KEY);
-      if (blob) {
-        currentContent = await blob.text();
+      const downloadUrl = await getDownloadUrl(BLOB_KEY);
+      const response = await fetch(downloadUrl);
+      if (response.ok) {
+        currentContent = await response.text();
       }
     } catch (error) {
       // First write or blob doesn't exist yet
+      console.log("No existing blob found, starting fresh");
     }
 
     // Append new log line
