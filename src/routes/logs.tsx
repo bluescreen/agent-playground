@@ -1,41 +1,11 @@
-import { list } from "@vercel/blob";
+import { readLogs } from "~/lib/blob-log";
 import type { Route } from "../../.react-router/types/src/routes/+types.logs";
 import { Navbar } from "~/components/Navbar";
 import { Footer } from "~/components/Footer";
 
-export async function loader({ request }: Route.LoaderArgs) {
-  try {
-    const { blobs } = await list({ prefix: "ctx.log" });
-    const blob = blobs[0];
-    if (!blob) return { logs: [] };
-
-    const response = await fetch(blob.url, {
-      headers: {
-        Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
-      },
-    });
-
-    if (!response.ok) {
-      return { logs: [] };
-    }
-
-    const content = await response.text();
-    const lines = content
-      .split("\n")
-      .filter((line) => line.trim())
-      .map((line) => {
-        const match = line.match(/^\[(.*?)\]\s(.*)$/);
-        return {
-          timestamp: match?.[1] || "",
-          message: match?.[2] || line,
-        };
-      });
-
-    return { logs: lines.reverse() };
-  } catch (error) {
-    console.error("Error fetching logs:", error);
-    return { logs: [] };
-  }
+export async function loader() {
+  const logs = await readLogs();
+  return { logs };
 }
 
 export default function Logs({ loaderData }: Route.ComponentProps) {
