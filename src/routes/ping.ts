@@ -3,14 +3,13 @@ import type { Route } from "../../.react-router/types/src/routes/+types.ping";
 
 const BLOB_KEY = "ctx.log";
 
-async function logCtx(ctx: string | null) {
-  if (!ctx) return;
+async function logCtx(ctx: string | null): Promise<string | null> {
+  if (!ctx) return null;
   try {
     // Read current logs
     let currentContent = "";
     try {
       const downloadUrl = await getDownloadUrl(BLOB_KEY);
-      console.log("Download URL:", downloadUrl);
       const response = await fetch(downloadUrl, {
         headers: {
           Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`,
@@ -18,27 +17,25 @@ async function logCtx(ctx: string | null) {
       });
       if (response.ok) {
         currentContent = await response.text();
-        console.log("Read existing content, length:", currentContent.length);
-      } else {
-        console.log("No existing blob, starting fresh");
       }
     } catch (error) {
-      console.log("Error reading blob:", error);
+      // First write or blob doesn't exist yet
     }
 
     // Append new log line
     const line = `[${new Date().toISOString()}] ${ctx}\n`;
     const newContent = currentContent + line;
 
-    // Write to blob (public for easier reading)
     const result = await put(BLOB_KEY, newContent, {
       access: "public",
       addRandomSuffix: false,
       allowOverwrite: true,
     });
-    console.log("Blob written:", result);
+    console.log("Blob written at URL:", result.url);
+    return result.url;
   } catch (error) {
     console.error("Failed to write to blob:", error);
+    return null;
   }
 }
 
@@ -46,16 +43,16 @@ export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const ctx = url.searchParams.get("ctx");
 
-  await logCtx(ctx);
+  const blobUrl = await logCtx(ctx);
 
-  return Response.json({ pong: true, ctx: ctx ?? null });
+  return Response.json({ pong: true, ctx: ctx ?? null, blobUrl });
 }
 
 export async function action({ request }: Route.ActionArgs) {
   const body = await request.json();
   const ctx = body?.ctx ?? null;
 
-  await logCtx(ctx);
+  const blobUrl = await logCtx(ctx);
 
-  return Response.json({ pong: true, ctx });
+  return Response.json({ pong: true, ctx, blobUrl });
 }
