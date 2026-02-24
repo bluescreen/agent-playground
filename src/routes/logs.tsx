@@ -1,4 +1,4 @@
-import { download } from "@vercel/blob";
+import { get } from "@vercel/blob";
 import type { Route } from "../../.react-router/types/src/routes/+types.logs";
 import { Navbar } from "~/components/Navbar";
 import { Footer } from "~/components/Footer";
@@ -7,7 +7,11 @@ const BLOB_KEY = "ctx.log";
 
 export async function loader({ request }: Route.LoaderArgs) {
   try {
-    const blob = await download(BLOB_KEY);
+    const blob = await get(BLOB_KEY);
+    if (!blob) {
+      return { logs: [] };
+    }
+
     const content = await blob.text();
     const lines = content
       .split("\n")
