@@ -34,6 +34,7 @@ async function logCtx(ctx: string | null) {
     const result = await put(BLOB_KEY, newContent, {
       access: "public",
       addRandomSuffix: false,
+      allowOverwrite: true,
     });
     console.log("Blob written:", result);
   } catch (error) {
