@@ -23,9 +23,9 @@ async function logCtx(ctx: string | null) {
     const line = `[${new Date().toISOString()}] ${ctx}\n`;
     const newContent = currentContent + line;
 
-    // Write to blob
+    // Write to blob (private)
     await put(BLOB_KEY, newContent, {
-      access: "public",
+      access: "private",
     });
   } catch (error) {
     console.error("Failed to write to blob:", error);
