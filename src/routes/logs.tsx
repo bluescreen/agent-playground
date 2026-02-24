@@ -1,14 +1,19 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import type { Route } from "../../.react-router/types/src/routes/+types.logs";
 import { Navbar } from "~/components/Navbar";
 import { Footer } from "~/components/Footer";
 
-const CTX_FILE = join(process.cwd(), "ctx.log");
+const BLOB_KEY = "ctx.log";
 
 export async function loader({ request }: Route.LoaderArgs) {
   try {
-    const content = await readFile(CTX_FILE, "utf-8");
+    const response = await fetch(
+      `https://blob.vercelusercontent.com/${BLOB_KEY}`
+    );
+    if (!response.ok) {
+      return { logs: [] };
+    }
+
+    const content = await response.text();
     const lines = content
       .split("\n")
       .filter((line) => line.trim())

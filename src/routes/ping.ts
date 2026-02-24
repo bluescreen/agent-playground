@@ -1,17 +1,34 @@
-import { writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { put } from "@vercel/blob";
 import type { Route } from "../../.react-router/types/src/routes/+types.ping";
 
-const CTX_FILE = join(process.cwd(), "ctx.log");
+const BLOB_KEY = "ctx.log";
 
 async function logCtx(ctx: string | null) {
   if (!ctx) return;
   try {
+    // Read current logs
+    let currentContent = "";
+    try {
+      const response = await fetch(
+        `https://blob.vercelusercontent.com/${BLOB_KEY}`
+      );
+      if (response.ok) {
+        currentContent = await response.text();
+      }
+    } catch (error) {
+      // First write or blob doesn't exist yet
+    }
+
+    // Append new log line
     const line = `[${new Date().toISOString()}] ${ctx}\n`;
-    await writeFile(CTX_FILE, line, { flag: "a" });
+    const newContent = currentContent + line;
+
+    // Write to blob
+    await put(BLOB_KEY, newContent, {
+      access: "public",
+    });
   } catch (error) {
-    // Silently fail on file write errors (e.g., Vercel read-only filesystem)
-    console.error("Failed to write to ctx.log:", error);
+    console.error("Failed to write to blob:", error);
   }
 }
 
