@@ -9,7 +9,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 
   if (ctx) await appendLog(ctx);
 
-  const image = await readFile(join(process.cwd(), "public", "logo_res.png"));
+  const image = await readFile(join(process.cwd(), "public", "logo_new.png"));
   return new Response(image, {
     headers: { "Content-Type": "image/png" },
   });
