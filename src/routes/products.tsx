@@ -3,10 +3,10 @@ import { Footer } from "~/components/Footer";
 import { ProductCard } from "~/components/ProductCard";
 
 const PRODUCTS = [
-  { id: "1", name: "Wireless Headphones", price: 79.99, image: "/images/headphones.jpg" },
-  { id: "2", name: "Mechanical Keyboard", price: 129.99, image: "/images/keyboard.jpg" },
-  { id: "3", name: "USB-C Hub", price: 49.99, image: "/images/hub.jpg" },
-  { id: "4", name: "Monitor Stand", price: 39.99, image: "/images/stand.jpg" },
+  { id: "1", name: "Wireless Headphones", price: 79.99, image: "https://picsum.photos/seed/headphones/400/300" },
+  { id: "2", name: "Mechanical Keyboard", price: 129.99, image: "https://picsum.photos/seed/keyboard/400/300" },
+  { id: "3", name: "USB-C Hub", price: 49.99, image: "https://picsum.photos/seed/usbhub/400/300" },
+  { id: "4", name: "Monitor Stand", price: 39.99, image: "https://picsum.photos/seed/stand/400/300" },
 ];
 
 export default function Products() {

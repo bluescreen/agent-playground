@@ -10,7 +10,6 @@ export function Navbar() {
         <Link to="/products">Products</Link>
         <Link to="/cart">Cart</Link>
         <Link to="/about">About</Link>
-        <Link to="/logs">Logs</Link>
       </div>
     </nav>
   );
