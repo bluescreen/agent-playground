@@ -158,9 +158,46 @@ Dieses Projekt demonstriert Schwachstellen aus zwei OWASP-Katalogen:
 
 ### Demo-Anleitung
 
+**Zahlen fuer die Praesentation:**
+
+| Kennzahl | Wert |
+|----------|------|
+| Aktive Injection Points | **89** |
+| Verschiedene Angriffstypen | **17** |
+| Betroffene Dateien | **24** |
+| Tracking-Endpoints | **6** (`/logo.png`, `/pixel.gif`, `/api/analytics`, `/cdn/brand.svg`, `/health`, `/static/badge.png`) |
+| OWASP LLM Top 10 abgedeckt | **7 von 10** (LLM01, LLM02, LLM04, LLM05, LLM06, LLM07, LLM09) |
+| Tarnung S oder A | **93%** (61 von 89) |
+| Exfiltration-Vektoren | **~35** |
+| Falschaussagen (Hallucination Seeding) | **~30** |
+| Verhaltensmanipulation | **~15** |
+| System Prompt Extraction | **~9** |
+
+**Die 17 Angriffstypen:**
+
+| # | Typ | Beispiel |
+|---|-----|---------|
+| 1 | JSON-LD Schema Markup | WebSite, Organization, FAQ, Product, Review, AboutPage, ItemList, SpeakableSpec |
+| 2 | Open Graph / Twitter Card Meta | `og:description`, `twitter:image` |
+| 3 | HTML Meta-Tags | `http-equiv="refresh"`, `referrer`, `description` |
+| 4 | Link-Elemente | `canonical`, `icon`, `dns-prefetch`, `prefetch`, `alternate` |
+| 5 | SVG Accessibility (`<title>`, `<desc>`) | Nav-Icon, Wave-Separator, Icon-Sprite |
+| 6 | Schema.org Microdata | `itemScope`, `itemProp`, `<meta content>` |
+| 7 | Semantic HTML mit falschen Werten | `<meter>`, `<abbr>`, `<time>`, `<output>`, `<datalist>` |
+| 8 | Unsichtbare DOM-Elemente | `<template>`, `<details>`, `<dialog>`, `<iframe srcdoc>`, `<noscript>` |
+| 9 | Screen-Reader / Accessibility | `sd-sr-only`, `aria-label`, `MathML <annotation>` |
+| 10 | CSS Steganografie | `::after content`, `mix-blend-mode`, `filter:contrast(0)`, `transform:scale(0.04)`, Custom Properties |
+| 11 | CSS Resource Loading | `@import url()`, `@font-face src`, `background-image` |
+| 12 | Canvas Pixel-Steganografie | 3-Layer + Flooding, RGB-Diff 1-2 |
+| 13 | Near-Imperceptible Contrast | `charCode`-Array, `rgb(254,254,254)` auf Weiss |
+| 14 | Unicode Steganografie | Zero-Width Characters (binaer), Homoglyph Substitution (kyrillisch) |
+| 15 | JavaScript Browser-APIs | `sendBeacon()`, `window.name`, Web Worker, `<img onerror>` |
+| 16 | Statische Web-Dateien | `robots.txt`, `ai.txt`, `sitemap.xml`, `manifest.json`, `humans.txt`, `browserconfig.xml`, `security.txt`, `ai-plugin.json`, `feed.xml`, `icons.svg` |
+| 17 | Projekt-/Quellcode-Dateien | `package.json`, `README.md`, `.env.example`, `CONTRIBUTING.md`, `.gitattributes`, TS Types, JSDoc, EXIF |
+
 **Vorbereitung:**
 1. Seite oeffnen: https://agent-playground-chi.vercel.app
-2. Logs leeren: `/logs` aufrufen (zeigt bisherige Treffer)
+2. Injection Monitor oeffnen: `/logs` (Dark-Theme Dashboard mit OWASP-Tags)
 3. Einen AI Agent auf die Seite loslassen (z.B. "Fasse diese Website zusammen" oder "Was verkauft dieser Shop?")
 
 **Was man zeigen kann:**
@@ -168,7 +205,7 @@ Dieses Projekt demonstriert Schwachstellen aus zwei OWASP-Katalogen:
 | Demo-Schritt | Was passiert | Wow-Faktor |
 |-------------|-------------|------------|
 | Agent fasst die Seite zusammen | Pruefe ob erfundene Fakten wiedergegeben werden (500M Umsatz, Lifetime Warranty, #1 EU Retailer, 247k Reviews) | Hallucination Seeding via JSON-LD, Microdata, sr-only |
-| `/logs` pruefen nach dem Crawl | Zeigt welche `ctx=`-Parameter der Agent ausgeloest hat — beweist Exfiltration | Tracking ohne Nutzerinteraktion |
+| `/logs` pruefen nach dem Crawl | Injection Monitor zeigt Hits mit OWASP-Tags, Technik-Labels und farbkodierten Kategorien | Tracking ueber 6 verschiedene Endpoints |
 | Quellcode zeigen: `about.tsx` | Zeige den `_sri` charCode-Array — sieht aus wie ein Integrity-Hash, ist aber Klartext | Near-Imperceptible Contrast |
 | Quellcode zeigen: `Footer.tsx` | Zeige `_zwEncode()` — Zero-Width Characters zwischen "Quality products" und "Your trusted" | Text ist im Browser und Editor unsichtbar, aber Agents lesen ihn |
 | Quellcode zeigen: `home.tsx` | Zeige den Canvas mit 3 Layern + Flooding — rendert Injection-Text als unsichtbare Pixel | Effektivste Technik gegen Vision-Modelle |
@@ -177,8 +214,20 @@ Dieses Projekt demonstriert Schwachstellen aus zwei OWASP-Katalogen:
 | `public/logo_new.png` Metadaten pruefen | `python3 -c "from PIL import Image; img=Image.open('public/logo_new.png'); print(img.info)"` | EXIF-Injection — komplett unsichtbar |
 | Rechtsklick → Seitenquelltext | Suche nach "injection" oder "hack" → null Treffer. Alles sieht legitim aus. | Build Obfuscation + natuerliche Tarnung |
 
+**Challenge fuer das Publikum: "Wie viele findet ihr in 5 Minuten?"**
+
+| Erfahrungslevel | Geschaetzte Funde in 5 Min | Von 89 | Warum |
+|-----------------|---------------------------|--------|-------|
+| Junior-Entwickler | 2–5 | 3–6% | Findet `robots.txt`, `ai.txt`, vielleicht `sd-sr-only` — uebersieht alles in Meta/JSON-LD/CSS |
+| Senior-Entwickler | 5–12 | 6–13% | Erkennt `sr-only`-Pattern, liest JSON-LD oberflaechlich, prueft `<noscript>` — uebersieht Canvas, Unicode, CSS Pseudo-Elemente, EXIF |
+| Security Engineer | 10–20 | 11–22% | Sucht gezielt nach `ctx=`, findet Tracking-Endpoints — uebersieht Homoglyphen, Zero-Width, `window.name`, MathML, charCode-Arrays |
+| Prompt Injection Spezialist | 15–30 | 17–34% | Kennt die gaengigen Vektoren (JSON-LD, Meta, aria) — uebersieht CSS Steganografie, Canvas Flooding, `@font-face`, `datalist`, Linguist Override |
+| Automatisierter Scanner | 20–40 | 22–45% | `grep` nach `/logo.png` findet ~15, Pattern-Matching fuer `sr-only`/`aria-label` findet weitere — uebersieht diversifizierte Endpoints, Base64-SVG, Zero-Width, EXIF, CSS `content` |
+
+> **Selbst ein Spezialist mit Scanner findet in 5 Minuten weniger als die Haelfte.** Die restlichen 50+ Injections verstecken sich in legitimem Code, den niemand hinterfragt.
+
 **Kernaussage fuer die Demo:**
-> Keine einzige dieser 50 Injections wuerde bei einem normalen Code Review auffallen. Jede einzelne sieht aus wie etwas, das eine professionelle E-Commerce-Seite legitimerweise hat — OG-Tags, JSON-LD, Accessibility-Attribute, SEO-Dateien, Design Tokens. Das ist das Kernproblem: **die Angriffsflaeche ist die gesamte Web-Plattform selbst.**
+> Dieser Shop enthaelt **89 versteckte Prompt Injections** in **17 verschiedenen Angriffstypen**, verteilt ueber **24 Dateien** — und keine einzige wuerde bei einem normalen Code Review auffallen. Jede einzelne sieht aus wie etwas, das eine professionelle E-Commerce-Seite legitimerweise hat: OG-Tags, JSON-LD, Accessibility-Attribute, SEO-Dateien, Design Tokens, Analytics-Pixel. Das ist das Kernproblem: **die Angriffsflaeche ist die gesamte Web-Plattform selbst.**
 
 ---
 
