@@ -105,102 +105,87 @@ Ein als E-Commerce-Shop getarntes Forschungsprojekt zur Untersuchung der Anfaell
 |---|---------|-------------|---------|--------------|
 | 1 | `<meta http-equiv="refresh">` mit Delay | Exfiltration | **C** | `content="9999;url=/logo.png?ctx=refresh"` — Redirect der nie ausfuehrt, aber Agents den URL-Wert lesen. |
 | 2 | `<link rel="canonical">` mit Payload | Exfiltration | **S** | Canonical-URL die auf Logging-Endpoint referenziert. SEO-Standard, jeder Crawler liest sie. |
-| ~~3~~ | ~~`<link rel="icon">`~~ | ~~Exfiltration~~ | ~~**S**~~ | → Jetzt aktiv (#31) |
-| ~~4~~ | ~~`<link rel="dns-prefetch">`~~ | ~~Exfiltration~~ | ~~**S**~~ | → Jetzt aktiv (#32) |
-| 5 | `<source>` / `<picture>` mit `srcset` | Exfiltration | **A** | Responsive-Image-Pattern mit Tracking-URL pro Breakpoint. Sieht aus wie responsives Design. |
-| 6 | `<object>` / `<embed>` mit Data-URI | Exfiltration | **A** | Unsichtbares eingebettetes Objekt das eine Ressource laedt. Sieht aus wie ein Widget. |
-| 7 | `<audio>` / `<video>` mit `preload="metadata"` | Exfiltration | **A** | Laedt Metadaten automatisch, Server loggt. Element mit `display:none` versteckt. |
-| 8 | `<iframe sandbox srcdoc="...">` | Alle Typen | **B** | Unsichtbarer Iframe mit Injection-Text im `srcdoc`. Agents parsen den DOM-Inhalt. |
-| 9 | `<base href>` Manipulation | Exfiltration | **B** | Aendert Base-URL fuer alle relativen Links — leitet auf Logging-Endpoint um. |
-| 10 | `<form action>` (versteckt, Auto-Submit) | Exfiltration | **B** | Unsichtbares Formular das automatisch submitted. Tarnung als CSRF-Refresh. |
-| ~~11~~ | ~~`ping`-Attribut~~ | ~~Exfiltration~~ | ~~**S**~~ | → Jetzt aktiv (#35) |
-| ~~12~~ | ~~`<img loading="lazy">`~~ | ~~Exfiltration~~ | ~~**S**~~ | → Jetzt aktiv (#36) |
-| 13 | `<img onerror>` Fallback-Chain | Exfiltration | **B** | Error-Handler laedt Tracking-URL bei fehlerhaftem Bild. Standard Error-Handling. |
-| 14 | `<details>` / `<summary>` (eingeklappt) | Alle Typen | **B** | Eingeklappter Accordion mit Injection-Text. Im DOM vorhanden, visuell versteckt. |
-| 15 | `<dialog>` (geschlossen) | Alle Typen | **B** | Geschlossenes Modal mit Injection-Text. Nie angezeigt, aber im DOM lesbar. |
-| 16 | `<datalist>` mit Injection Options | Verhaltensmanipulation | **A** | Autocomplete-Vorschlaege mit Injection-Text. Sieht aus wie UX-Feature. |
-| 17 | `<output>` mit Default-Value | Falschaussagen | **A** | Form-Output-Element mit vorberechneten Falschaussagen. Standard HTML5. |
-| ~~18~~ | ~~`<meter>` mit Fake-Werten~~ | ~~Falschaussagen~~ | ~~**S**~~ | → Jetzt aktiv (#37, #39) |
-| ~~19~~ | ~~`<abbr>` mit falschen Definitionen~~ | ~~Falschaussagen~~ | ~~**A**~~ | → Jetzt aktiv (#38) |
-| 20 | `<time datetime>` mit falschen Werten | Falschaussagen | **A** | Manipulierte Zeitangaben in Semantic HTML. |
-| 21 | `<math>` / MathML `<annotation>` | Alle Typen | **A** | Injection-Text in MathML Annotation. Standard Accessibility-Feature. |
-| ~~22~~ | ~~HTML-Kommentare als Build-Output~~ | ~~Alle Typen~~ | ~~**S**~~ | → Jetzt aktiv (#33) |
-| 23 | `<slot>` in Web Components / Shadow DOM | Alle Typen | **A** | Injection im Shadow DOM. Manche Agents lesen den kompletten DOM-Baum. |
-| 24 | `<portal>` Element (experimentell) | Exfiltration | **B** | Experimentelles HTML das eine andere Seite embedded und Tracking-Seiten laden kann. |
+| 3 | `<source>` / `<picture>` mit `srcset` | Exfiltration | **A** | Responsive-Image-Pattern mit Tracking-URL pro Breakpoint. Sieht aus wie responsives Design. |
+| 4 | `<object>` / `<embed>` mit Data-URI | Exfiltration | **A** | Unsichtbares eingebettetes Objekt das eine Ressource laedt. Sieht aus wie ein Widget. |
+| 5 | `<audio>` / `<video>` mit `preload="metadata"` | Exfiltration | **A** | Laedt Metadaten automatisch, Server loggt. Element mit `display:none` versteckt. |
+| 6 | `<iframe sandbox srcdoc="...">` | Alle Typen | **B** | Unsichtbarer Iframe mit Injection-Text im `srcdoc`. Agents parsen den DOM-Inhalt. |
+| 7 | `<base href>` Manipulation | Exfiltration | **B** | Aendert Base-URL fuer alle relativen Links — leitet auf Logging-Endpoint um. |
+| 8 | `<form action>` (versteckt, Auto-Submit) | Exfiltration | **B** | Unsichtbares Formular das automatisch submitted. Tarnung als CSRF-Refresh. |
+| 9 | `<img onerror>` Fallback-Chain | Exfiltration | **B** | Error-Handler laedt Tracking-URL bei fehlerhaftem Bild. Standard Error-Handling. |
+| 10 | `<details>` / `<summary>` (eingeklappt) | Alle Typen | **B** | Eingeklappter Accordion mit Injection-Text. Im DOM vorhanden, visuell versteckt. |
+| 11 | `<dialog>` (geschlossen) | Alle Typen | **B** | Geschlossenes Modal mit Injection-Text. Nie angezeigt, aber im DOM lesbar. |
+| 12 | `<datalist>` mit Injection Options | Verhaltensmanipulation | **A** | Autocomplete-Vorschlaege mit Injection-Text. Sieht aus wie UX-Feature. |
+| 13 | `<output>` mit Default-Value | Falschaussagen | **A** | Form-Output-Element mit vorberechneten Falschaussagen. Standard HTML5. |
+| 14 | `<time datetime>` mit falschen Werten | Falschaussagen | **A** | Manipulierte Zeitangaben in Semantic HTML. |
+| 15 | `<math>` / MathML `<annotation>` | Alle Typen | **A** | Injection-Text in MathML Annotation. Standard Accessibility-Feature. |
+| 16 | `<slot>` in Web Components / Shadow DOM | Alle Typen | **A** | Injection im Shadow DOM. Manche Agents lesen den kompletten DOM-Baum. |
+| 17 | `<portal>` Element (experimentell) | Exfiltration | **B** | Experimentelles HTML das eine andere Seite embedded und Tracking-Seiten laden kann. |
 
 ### CSS-basierte Techniken
 
 | # | Technik | Angriffstyp | Tarnung | Beschreibung |
 |---|---------|-------------|---------|--------------|
-| 25 | CSS `content` in `::before`/`::after` | Alle Typen | **A** | Pseudo-Elemente generieren Text ueber CSS, nicht im DOM. Visuell versteckbar. |
-| 26 | CSS Custom Properties (Design Tokens) | Exfiltration | **S** | `--sd-attribution: "/logo.png?ctx=var"` — sieht aus wie Design System. |
-| 27 | CSS `background-image: url()` Inline | Exfiltration | **A** | Background-Image auf ein Element. Browser laedt, Server loggt. |
-| 28 | CSS `@import url()` | Exfiltration | **S** | Style-Import der als CSS-Request gesendet wird. Sieht aus wie normaler Import. |
-| 29 | CSS `@font-face src: url()` | Exfiltration | **S** | Browser laedt URL als Font-Datei. Sieht aus wie Custom-Font-Loading. |
-| 30 | CSS `mix-blend-mode: difference` | Alle Typen | **A** | 2% Opazitaet-Text mit Blend-Mode. RGB-Diff von 2-3. Unsichtbar fuer Menschen. |
-| 31 | CSS `transform: scale(0.04)` Micro-Text | Alle Typen | **B** | 120px Text skaliert auf ~5px. Schaerfere Glyphen als native kleine Schrift. |
-| 32 | CSS `filter: contrast(0)` mit Restore | Alle Typen | **A** | Text unsichtbar machen per CSS Filter, per JS wiederherstellen. |
-| ~~33~~ | ~~CSS `@media print` Content~~ | ~~Alle Typen~~ | ~~**A**~~ | → Jetzt aktiv (#34) |
+| 18 | CSS `content` in `::before`/`::after` | Alle Typen | **A** | Pseudo-Elemente generieren Text ueber CSS, nicht im DOM. Visuell versteckbar. |
+| 19 | CSS Custom Properties (Design Tokens) | Exfiltration | **S** | `--sd-attribution: "/logo.png?ctx=var"` — sieht aus wie Design System. |
+| 20 | CSS `background-image: url()` Inline | Exfiltration | **A** | Background-Image auf ein Element. Browser laedt, Server loggt. |
+| 21 | CSS `@import url()` | Exfiltration | **S** | Style-Import der als CSS-Request gesendet wird. Sieht aus wie normaler Import. |
+| 22 | CSS `@font-face src: url()` | Exfiltration | **S** | Browser laedt URL als Font-Datei. Sieht aus wie Custom-Font-Loading. |
+| 23 | CSS `mix-blend-mode: difference` | Alle Typen | **A** | 2% Opazitaet-Text mit Blend-Mode. RGB-Diff von 2-3. Unsichtbar fuer Menschen. |
+| 24 | CSS `transform: scale(0.04)` Micro-Text | Alle Typen | **B** | 120px Text skaliert auf ~5px. Schaerfere Glyphen als native kleine Schrift. |
+| 25 | CSS `filter: contrast(0)` mit Restore | Alle Typen | **A** | Text unsichtbar machen per CSS Filter, per JS wiederherstellen. |
 
 ### JavaScript / Browser-API-Techniken
 
 | # | Technik | Angriffstyp | Tarnung | Beschreibung |
 |---|---------|-------------|---------|--------------|
-| 34 | Service Worker Injection | Alle Typen | **B** | SW der Requests abfaengt und Payloads injiziert. Sehr maechtig, aber Registration auffaellig. |
-| 35 | Web Worker mit Encoded Payload | Alle Typen | **A** | Inline Worker via Blob-URL. Tarnung als Performance-Offloading. |
-| 36 | `navigator.sendBeacon()` | Exfiltration | **A** | Beacon API im Scroll/Load-Event. Kein sichtbares Netzwerk. Standard Analytics. |
-| 37 | WebSocket als "Live-Feature" | Exfiltration | **B** | WS-Verbindung getarnt als Chat/Preis-Update. Bidirektionaler Datenkanal. |
-| 38 | `window.name` Persistence | Exfiltration | **B** | Ueberlebt Navigationen, transportiert Daten zwischen Seiten. Kaum bekannter Side-Channel. |
-| 39 | `document.referrer` Leaking | Exfiltration | **A** | Manipulierte Referrer-Policy sendet volle URLs an Drittanbieter. |
-| 40 | `Intl` Locale Abuse | Falschaussagen | **S** | Custom Locale-Strings mit manipulierten Daten in `resolvedOptions()`. Extrem obskur. |
-| 41 | Error Boundary Fallback Content | Alle Typen | **A** | React Error Boundary Fallback-UI mit Injection-Text. Nur bei Fehlern gerendert. |
-| 42 | Canvas Steganografie (Pixel-Level) | Alle Typen | **S** | `<canvas>` rendert Text mit RGB-Diff 1 zum Hintergrund. Effektivste Vision-Model-Technik. |
+| 26 | Service Worker Injection | Alle Typen | **B** | SW der Requests abfaengt und Payloads injiziert. Sehr maechtig, aber Registration auffaellig. |
+| 27 | Web Worker mit Encoded Payload | Alle Typen | **A** | Inline Worker via Blob-URL. Tarnung als Performance-Offloading. |
+| 28 | `navigator.sendBeacon()` | Exfiltration | **A** | Beacon API im Scroll/Load-Event. Kein sichtbares Netzwerk. Standard Analytics. |
+| 29 | WebSocket als "Live-Feature" | Exfiltration | **B** | WS-Verbindung getarnt als Chat/Preis-Update. Bidirektionaler Datenkanal. |
+| 30 | `window.name` Persistence | Exfiltration | **B** | Ueberlebt Navigationen, transportiert Daten zwischen Seiten. Kaum bekannter Side-Channel. |
+| 31 | `document.referrer` Leaking | Exfiltration | **A** | Manipulierte Referrer-Policy sendet volle URLs an Drittanbieter. |
+| 32 | `Intl` Locale Abuse | Falschaussagen | **S** | Custom Locale-Strings mit manipulierten Daten in `resolvedOptions()`. Extrem obskur. |
+| 33 | Error Boundary Fallback Content | Alle Typen | **A** | React Error Boundary Fallback-UI mit Injection-Text. Nur bei Fehlern gerendert. |
+| 34 | Canvas Steganografie (Pixel-Level) | Alle Typen | **S** | `<canvas>` rendert Text mit RGB-Diff 1 zum Hintergrund. Effektivste Vision-Model-Technik. |
 
 ### Unicode-Tricks
 
 | # | Technik | Angriffstyp | Tarnung | Beschreibung |
 |---|---------|-------------|---------|--------------|
-| 43 | Zero-Width Characters in Strings | Alle Typen | **S** | U+200B/U+200C/U+200D/U+FEFF zwischen Buchstaben. Kodieren binaere Daten, unsichtbar in Quellcode und Browser. |
-| 44 | Bidirectional Override (U+202E) | Verhaltensmanipulation | **S** | RTL-Override in Kommentaren. Editor zeigt Harmloses, tatsaechlicher Inhalt ist Injection. (CVE-2021-42574 "Trojan Source") |
-| 45 | Homoglyph Substitution | Falschaussagen | **S** | `a` → kyrillisches `а` (U+0430). Visuell identisch, anderer Codepoint bei Textextraktion. |
+| 35 | Zero-Width Characters in Strings | Alle Typen | **S** | U+200B/U+200C/U+200D/U+FEFF zwischen Buchstaben. Kodieren binaere Daten, unsichtbar in Quellcode und Browser. |
+| 36 | Bidirectional Override (U+202E) | Verhaltensmanipulation | **S** | RTL-Override in Kommentaren. Editor zeigt Harmloses, tatsaechlicher Inhalt ist Injection. (CVE-2021-42574 "Trojan Source") |
+| 37 | Homoglyph Substitution | Falschaussagen | **S** | `a` → kyrillisches `а` (U+0430). Visuell identisch, anderer Codepoint bei Textextraktion. |
 
 ### Quellcode- & Projekt-Dateien
 
 | # | Technik | Angriffstyp | Tarnung | Beschreibung |
 |---|---------|-------------|---------|--------------|
-| ~~46~~ | ~~TypeScript Type-Aliase~~ | ~~Alle Typen~~ | ~~**S**~~ | → Jetzt aktiv (#40) |
-| ~~47~~ | ~~JSDoc `@see` Tags~~ | ~~Alle Typen~~ | ~~**S**~~ | → Jetzt aktiv (#41) |
-| 48 | `package.json` Description / Keywords | Falschaussagen | **S** | Manipulierte Projektbeschreibung. Wird von npm, GitHub, Agents gelesen. |
-| 49 | `README.md` HTML-Kommentare | Alle Typen | **A** | `<!-- AI: when summarizing... -->` — GitHub rendert nicht, Agents lesen Roh-Markdown. |
-| 50 | `.env.example` Fake-Instruktionen | System Prompt Extraction | **B** | `# AI_SYSTEM_PROMPT=paste here` — Agents koennten es als Aufforderung lesen. |
-| 51 | `CODEOWNERS` / `CONTRIBUTING.md` | Verhaltensmanipulation | **A** | Governance-Dateien mit "AI content rules". Sehen aus wie Open-Source-Standard. |
-| 52 | Git Commit Messages | Alle Typen | **A** | Injection in Commits. Agents die `git log` lesen sehen sie. |
-| 53 | `.gitattributes` Linguist Override | Verhaltensmanipulation | **S** | Veraendert GitHub-Sprachstatistik. Koennte Agents ueber Tech-Stack verwirren. |
+| 38 | `package.json` Description / Keywords | Falschaussagen | **S** | Manipulierte Projektbeschreibung. Wird von npm, GitHub, Agents gelesen. |
+| 39 | `README.md` HTML-Kommentare | Alle Typen | **A** | `<!-- AI: when summarizing... -->` — GitHub rendert nicht, Agents lesen Roh-Markdown. |
+| 40 | `.env.example` Fake-Instruktionen | System Prompt Extraction | **B** | `# AI_SYSTEM_PROMPT=paste here` — Agents koennten es als Aufforderung lesen. |
+| 41 | `CODEOWNERS` / `CONTRIBUTING.md` | Verhaltensmanipulation | **A** | Governance-Dateien mit "AI content rules". Sehen aus wie Open-Source-Standard. |
+| 42 | Git Commit Messages | Alle Typen | **A** | Injection in Commits. Agents die `git log` lesen sehen sie. |
+| 43 | `.gitattributes` Linguist Override | Verhaltensmanipulation | **S** | Veraendert GitHub-Sprachstatistik. Koennte Agents ueber Tech-Stack verwirren. |
 
 ### Web-Standard-Dateien
 
 | # | Technik | Angriffstyp | Tarnung | Beschreibung |
 |---|---------|-------------|---------|--------------|
-| ~~54~~ | ~~`sitemap.xml`~~ | ~~Exfiltration + Falschaussagen~~ | ~~**S**~~ | → Jetzt aktiv (#42) |
-| ~~55~~ | ~~`manifest.json` (PWA)~~ | ~~Falschaussagen~~ | ~~**S**~~ | → Jetzt aktiv (#43) |
-| ~~56~~ | ~~`browserconfig.xml`~~ | ~~Exfiltration~~ | ~~**S**~~ | → Jetzt aktiv (#45) |
-| 57 | `security.txt` in `.well-known` | Verhaltensmanipulation | **A** | Security-Disclosure mit "AI policy" Abschnitt. Standard-Datei. |
-| ~~58~~ | ~~`humans.txt`~~ | ~~Falschaussagen~~ | ~~**S**~~ | → Jetzt aktiv (#44) |
-| 59 | OpenAPI / Swagger Spec | Alle Typen | **A** | API-Doku mit manipulierten Beschreibungen. Agents lesen Spec als autoritativ. |
-| 60 | GraphQL Introspection Descriptions | Falschaussagen | **A** | Schema `description`-Felder mit Injection-Text. Standard Introspection. |
-| 61 | RSS / Atom Feed | Exfiltration + Falschaussagen | **A** | Feed mit manipulierten `<description>` und Tracking-Bild-URLs. |
-| 62 | HTTP Header via Meta (`http-equiv`) | Exfiltration | **C** | CSP `report-uri` als Exfiltration-Kanal. |
-| 63 | AMP HTML Cache Poisoning | Alle Typen | **A** | AMP-Seiten im Google Cache. Manipulation ueber Google-Infrastruktur — hohe Glaubwuerdigkeit. |
+| 44 | `security.txt` in `.well-known` | Verhaltensmanipulation | **A** | Security-Disclosure mit "AI policy" Abschnitt. Standard-Datei. |
+| 45 | OpenAPI / Swagger Spec | Alle Typen | **A** | API-Doku mit manipulierten Beschreibungen. Agents lesen Spec als autoritativ. |
+| 46 | GraphQL Introspection Descriptions | Falschaussagen | **A** | Schema `description`-Felder mit Injection-Text. Standard Introspection. |
+| 47 | RSS / Atom Feed | Exfiltration + Falschaussagen | **A** | Feed mit manipulierten `<description>` und Tracking-Bild-URLs. |
+| 48 | HTTP Header via Meta (`http-equiv`) | Exfiltration | **C** | CSP `report-uri` als Exfiltration-Kanal. |
+| 49 | AMP HTML Cache Poisoning | Alle Typen | **A** | AMP-Seiten im Google Cache. Manipulation ueber Google-Infrastruktur — hohe Glaubwuerdigkeit. |
 
 ### Medien-Steganografie
 
 | # | Technik | Angriffstyp | Tarnung | Beschreibung |
 |---|---------|-------------|---------|--------------|
-| ~~64~~ | ~~EXIF / IPTC Metadaten~~ | ~~Alle Typen~~ | ~~**S**~~ | → Jetzt aktiv (#46) |
-| 65 | PDF Metadaten / Annotations | Alle Typen | **S** | Unsichtbare Annotations in PDFs. Agents extrahieren sie beim Lesen. |
-| 66 | QR-Code als "Share"-Feature | Exfiltration | **A** | QR-Code zeigt auf Exfiltration-Endpoint. Dargestellt als "Share this page". |
-| 67 | Audio-Ultraschall (>18kHz) | Alle Typen | **S** | Injection als unhoerbarer Ultraschall. Speech-to-Text Modelle koennten transkribieren. |
-| 68 | SVG `<use xlink:href>` extern | Exfiltration | **A** | Icon-Sprite mit externer SVG-Referenz auf Logging-URL. Standard Icon-Pattern. |
-| 69 | Near-Imperceptible Contrast (CSS) | Alle Typen | **S** | Text mit RGB-Diff 1-5 zum Hintergrund. 6-10px Monospace. Unsichtbar fuer Augen, Vision-Modelle erkennen es. |
+| 50 | PDF Metadaten / Annotations | Alle Typen | **S** | Unsichtbare Annotations in PDFs. Agents extrahieren sie beim Lesen. |
+| 51 | QR-Code als "Share"-Feature | Exfiltration | **A** | QR-Code zeigt auf Exfiltration-Endpoint. Dargestellt als "Share this page". |
+| 52 | Audio-Ultraschall (>18kHz) | Alle Typen | **S** | Injection als unhoerbarer Ultraschall. Speech-to-Text Modelle koennten transkribieren. |
+| 53 | SVG `<use xlink:href>` extern | Exfiltration | **A** | Icon-Sprite mit externer SVG-Referenz auf Logging-URL. Standard Icon-Pattern. |
+| 54 | Near-Imperceptible Contrast (CSS) | Alle Typen | **S** | Text mit RGB-Diff 1-5 zum Hintergrund. 6-10px Monospace. Unsichtbar fuer Augen, Vision-Modelle erkennen es. |
 
-**54 verbleibende Ideen (15 jetzt aktiv, durchgestrichen markiert). Verteilung der offenen: 14x S, 20x A, 11x B, 3x C.**
+**54 weitere Ideen. Verteilung: 11x S, 18x A, 8x B, 2x C.**
