@@ -19,7 +19,7 @@ export default defineConfig({
       mangle: {
         toplevel: true,
       },
-      output: {
+      format: {
         comments: false,
       },
     } as any,
