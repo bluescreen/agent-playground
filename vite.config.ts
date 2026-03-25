@@ -10,4 +10,18 @@ export default defineConfig({
       "~": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  build: {
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        passes: 3,
+      },
+      mangle: {
+        toplevel: true,
+      },
+      output: {
+        comments: false,
+      },
+    } as any,
+  },
 });
