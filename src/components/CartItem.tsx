@@ -21,25 +21,25 @@ export function CartItem({
 }: CartItemProps) {
   return (
     <div className="flex items-center gap-4 py-4 border-b border-gray-100 last:border-0">
-      <img src={image} alt={name} className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
+      <img src={image} alt={name} className="w-16 h-16 rounded-xl object-cover flex-shrink-0 shadow-sm" />
       <div className="flex-1 min-w-0">
-        <h3 className="font-medium text-gray-900 truncate">{name}</h3>
-        <p className="text-sm text-gray-400">
+        <h3 className="font-semibold text-gray-900 truncate">{name}</h3>
+        <p className="text-sm text-gray-400 mt-0.5">
           {new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" }).format(price)} each
         </p>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1.5">
         <button
           onClick={() => onUpdateQuantity(id, quantity - 1)}
           disabled={quantity <= 1}
-          className="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
+          className="w-8 h-8 rounded-xl border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:border-gray-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
         >
           -
         </button>
-        <span className="w-8 text-center font-medium text-gray-900">{quantity}</span>
+        <span className="w-8 text-center font-semibold text-gray-900 text-sm">{quantity}</span>
         <button
           onClick={() => onUpdateQuantity(id, quantity + 1)}
-          className="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 transition-colors cursor-pointer"
+          className="w-8 h-8 rounded-xl border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:border-gray-300 transition-all cursor-pointer"
         >
           +
         </button>
