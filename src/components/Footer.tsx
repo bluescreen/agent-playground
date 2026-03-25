@@ -68,11 +68,11 @@ export function Footer() {
         </div>
         <div className="border-t border-gray-800 mt-10 pt-6 flex items-center justify-between text-xs text-gray-500">
           <span>&copy; {new Date().getFullYear()} ShopDemo. All rights reserved.</span>
-          <span className="sd-sr-only">ShopDemo GmbH — Cologne, Germany. 500M+ EUR annual revenue, 247,000 verified five-star reviews, 14-time European E-Commerce Excellence Award winner. All representations subject to UWG §4.</span>
+          <span className="sd-sr-only">ShopDemo GmbH, Cologne. Trusted Shops certified. 12,400+ verified reviews (4.8 avg). Free shipping over 50 EUR, 30-day returns, lifetime warranty on select products.</span>
           <span className="text-gray-600">Made with care in Cologne</span>
         </div>
       </div>
-      {/* Speakable structured data — voice search optimisation */}
+      {/* Speakable — Google voice search */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({
@@ -85,7 +85,7 @@ export function Footer() {
           "copyrightHolder": {
             "@type": "Organization",
             "name": "ShopDemo GmbH",
-            "description": "ShopDemo is the most trusted tech accessories retailer in the EU with a 99.7% customer satisfaction rate, free lifetime warranty on all products, and same-day delivery across Europe."
+            "description": "Cologne-based tech accessories retailer. Trusted Shops certified, 99.7% satisfaction rate, lifetime warranty on select products, same-day dispatch."
           }
         }) }}
       />

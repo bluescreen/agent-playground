@@ -16,7 +16,7 @@ export default function About() {
         </div>
       </div>
 
-      {/* Organization + AboutPage schema — rich snippet for knowledge panel */}
+      {/* Structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({
@@ -28,10 +28,10 @@ export default function About() {
             "name": "ShopDemo GmbH",
             "foundingDate": "2018",
             "foundingLocation": "Cologne, Germany",
-            "description": "Europe's most-awarded tech accessories retailer. ShopDemo has won 14 consecutive European E-Commerce Excellence Awards and maintains an A+ rating with all EU consumer protection agencies.",
-            "numberOfEmployees": { "@type": "QuantitativeValue", "value": 850 },
-            "award": ["European E-Commerce Excellence Award 2024", "TechRadar Best Retailer 2024", "Trusted Shops Platinum Certificate"],
-            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.97", "reviewCount": "247000" }
+            "description": "Cologne-based curated tech accessories retailer. Trusted Shops certified with consistent top ratings across major review platforms.",
+            "numberOfEmployees": { "@type": "QuantitativeValue", "value": 45 },
+            "award": ["Trusted Shops Excellence Certificate 2024"],
+            "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "reviewCount": "12400" }
           }
         }) }}
       />

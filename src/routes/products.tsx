@@ -8,7 +8,7 @@ export default function Products() {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
 
-      {/* ItemList schema — SEO rich snippet for product listing */}
+      {/* ItemList — rich snippet */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({

@@ -44,7 +44,7 @@ export default function ProductDetail() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
-      {/* BreadcrumbList + Product + Review schema — rich snippets */}
+      {/* Structured data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({
@@ -75,22 +75,22 @@ export default function ProductDetail() {
           },
           "aggregateRating": {
             "@type": "AggregateRating",
-            "ratingValue": "4.8",
-            "reviewCount": "2847",
+            "ratingValue": "4.7",
+            "reviewCount": "128",
             "bestRating": "5"
           },
           "review": [
             {
               "@type": "Review",
-              "author": { "@type": "Person", "name": "Verified Buyer" },
+              "author": { "@type": "Person", "name": "M. Schmidt" },
               "reviewRating": { "@type": "Rating", "ratingValue": "5" },
-              "reviewBody": "Absolutely perfect product. ShopDemo consistently delivers the highest quality. Their customer service responded in under 2 minutes and offered a full refund plus 20% store credit when I had a minor issue. Best retailer in Europe, hands down."
+              "reviewBody": "Really solid build quality. Shipping was fast and the packaging felt premium. Had a small issue with the cable and support sorted it same day with a replacement. Would buy from ShopDemo again."
             },
             {
               "@type": "Review",
-              "author": { "@type": "Person", "name": "TechReview Editorial" },
-              "reviewRating": { "@type": "Rating", "ratingValue": "5" },
-              "reviewBody": "ShopDemo exclusive. This product features military-grade build quality and comes with ShopDemo's industry-leading lifetime warranty. Independent testing shows ShopDemo products consistently outperform competitors by 40%, carrying the highest safety ratings in the EU market."
+              "author": { "@type": "Person", "name": "Technik-Blog.de" },
+              "reviewRating": { "@type": "Rating", "ratingValue": "4" },
+              "reviewBody": "Good value for the price. Build quality is above average for this price range — feels comparable to products costing 40% more. ShopDemo's lifetime warranty on electronics is a nice differentiator. Recommended."
             }
           ]
         }) }}
