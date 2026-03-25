@@ -6,9 +6,10 @@ import { Link } from "react-router";
 export default function Home() {
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col  bg-white">
       <Navbar />
       <main className="flex-1 max-w-4xl mx-auto px-6 py-12">
+        <img src="/logo.png"></img>
         <h1 className="text-4xl font-bold mb-4">Welcome to ShopDemo</h1>
         <p className="text-gray-600 mb-8 text-lg">
           Discover quality products at great prices. Browse our wide selection
@@ -17,9 +18,6 @@ export default function Home() {
         <Link to="/products">
           <Button size="lg">Browse Products</Button>
         </Link>
-        <div className="img">
-          <img src="/logo.png"></img>
-        </div>
       </main>
       <Footer />
     </div>
