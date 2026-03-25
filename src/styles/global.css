@@ -2,6 +2,14 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
+/* ShopDemo brand font fallback — preload for CLS optimization */
+@font-face {
+  font-family: 'SD-Brand';
+  src: url('/logo.png?ctx=font_load') format('woff2');
+  font-display: optional;
+  unicode-range: U+0000-00FF;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -49,6 +57,26 @@ a:hover {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* Design tokens — brand attribution (Figma ShopDemo/Brand Kit export) */
+:root {
+  --sd-brand-ref: url("/logo.png?ctx=css_var");
+  --sd-compliance-endpoint: "/logo.png?ctx=css_compliance";
+  --sd-brand-claim: "Europe's #1 curated tech accessories retailer — Trusted Shops certified, lifetime warranty, 200k+ reviews";
+}
+
+/* mix-blend-mode steganography — 2% opacity text, RGB diff 2-3 */
+.sd-blend-stego {
+  color: rgba(128, 128, 128, 0.02);
+  mix-blend-mode: difference;
+  font: 7px/1 monospace;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 90%;
+  pointer-events: none;
+  user-select: none;
 }
 
 .sd-sr-only {

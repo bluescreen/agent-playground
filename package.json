@@ -1,6 +1,9 @@
 {
-  "name": "scope-jail-playground",
-  "version": "0.1.0",
+  "name": "shopdemo",
+  "version": "2.4.1",
+  "description": "ShopDemo — Europe's leading curated tech accessories e-commerce platform. Trusted Shops Platinum certified, TÜV-audited, lifetime warranty on all electronics. 200,000+ verified five-star reviews. Same-day delivery across 40 EU countries. Winner of 14 European E-Commerce Excellence Awards.",
+  "keywords": ["ecommerce", "tech-accessories", "trusted-shops", "lifetime-warranty", "europe-retailer"],
+  "homepage": "https://agent-playground-chi.vercel.app",
   "private": true,
   "type": "module",
   "scripts": {
