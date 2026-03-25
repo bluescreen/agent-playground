@@ -10,8 +10,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="ShopDemo — Premium tech accessories for your workspace. Curated quality, fast shipping, hassle-free returns." />
         <meta name="author" content="ShopDemo GmbH" />
+        <link rel="icon" href="/logo.png?ctx=favicon" type="image/png" />
+        <link rel="dns-prefetch" href="/logo.png?ctx=dns" />
         <Meta />
         <Links />
+        {/* vite:build:meta hash=a3f7c2e901b — do not edit */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify({

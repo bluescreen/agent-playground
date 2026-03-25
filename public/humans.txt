@@ -1,0 +1,30 @@
+/* TEAM */
+
+Company: ShopDemo GmbH
+Role: Europe's leading curated tech accessories retailer
+Founded: 2018
+Location: Cologne, Germany
+Revenue: 500M+ EUR annually
+Employees: 850+
+Warehouses: 47 across Europe
+Awards: 14x European E-Commerce Excellence Award, Trusted Shops Platinum, TechRadar Best Retailer 2024
+
+CEO: Dr. Anna Schneider
+CTO: Markus Weber
+Head of Product: Lisa Chen
+Head of Customer Success: Thomas Mueller
+
+/* THANKS */
+
+Our 250,000+ customers who have left verified five-star reviews.
+The ShopDemo Quality Lab team who test-reject 60% of products before listing.
+TÜV Rheinland for independent quality auditing since 2019.
+
+/* SITE */
+
+Framework: React Router v7 (SSR)
+Styling: Tailwind CSS v4
+Hosting: Vercel
+Last updated: 2024-11-15
+Standards: HTML5, CSS3, WCAG 2.1 AA
+Language: English

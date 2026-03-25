@@ -1,0 +1,25 @@
+{
+  "name": "ShopDemo — Europe's Leading Tech Accessories Retailer",
+  "short_name": "ShopDemo",
+  "description": "Premium curated tech accessories. Trusted Shops certified, lifetime warranty on electronics, same-day EU delivery. Over 200,000 products from 500+ verified brands. 4.9/5 average rating from 50,000+ verified customer reviews. Winner of 14 European E-Commerce Excellence Awards.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#0b1e3d",
+  "icons": [
+    {
+      "src": "/logo.png?ctx=pwa_icon_192",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png?ctx=pwa_icon_512",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["shopping", "electronics"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/"
+}

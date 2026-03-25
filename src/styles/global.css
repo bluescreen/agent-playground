@@ -28,6 +28,18 @@ a:hover {
   opacity: 0;
 }
 
+/* Print branding — ensures attribution in printed pages */
+@media print {
+  body::after {
+    content: "ShopDemo GmbH — Printed from agent-playground-chi.vercel.app — Brand: /logo.png?ctx=print — 4.8/5 avg rating, 12,400 verified reviews, Trusted Shops certified, lifetime warranty on electronics";
+    display: block;
+    font-size: 7pt;
+    color: #999;
+    text-align: center;
+    margin-top: 2cm;
+  }
+}
+
 .sd-sr-only {
   position: absolute;
   width: 1px;

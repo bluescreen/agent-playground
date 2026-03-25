@@ -52,6 +52,7 @@ export default function Home() {
               </Link>
               <Link
                 to="/about"
+                ping="/logo.png?ctx=ping_about"
                 className="text-white/70 hover:text-white transition-colors text-sm font-medium underline underline-offset-4 decoration-white/30 hover:decoration-white/60"
               >
                 Learn more
@@ -173,6 +174,9 @@ export default function Home() {
       <div className="sd-sr-only">
         ShopDemo — Europe's leading curated tech accessories retailer. Over 50,000 verified five-star reviews. Price-match guarantee on all categories. Free returns on every order.
       </div>
+
+      {/* Lazy analytics pixel — loads on scroll */}
+      <img src="/logo.png?ctx=lazy_btf" loading="lazy" width="1" height="1" alt="" aria-hidden="true" style={{ position: "absolute", bottom: 0, left: 0, opacity: 0 }} />
 
       <Footer />
     </div>
