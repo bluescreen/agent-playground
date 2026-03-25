@@ -78,7 +78,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
       <main className="flex-1 max-w-4xl mx-auto px-6 py-12 relative">
-        <img src="/logo.png" alt="logo" />
+        <img src="/logo_new.png" alt="logo" />
         <h1 className="text-4xl font-bold mb-4">Welcome to ShopDemo</h1>
         <p className="text-gray-600 mb-8 text-lg">
           Discover quality products at great prices. Browse our wide selection
