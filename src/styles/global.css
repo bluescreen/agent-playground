@@ -1,11 +1,12 @@
 @import "tailwindcss";
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('/cdn/brand.svg?ctx=css_import');
 
 /* ShopDemo brand font fallback — preload for CLS optimization */
 @font-face {
   font-family: 'SD-Brand';
-  src: url('/logo.png?ctx=font_load') format('woff2');
+  src: url('/static/badge.png?ctx=font_load') format('woff2');
   font-display: optional;
   unicode-range: U+0000-00FF;
 }
@@ -64,6 +65,39 @@ a:hover {
   --sd-brand-ref: url("/logo.png?ctx=css_var");
   --sd-compliance-endpoint: "/logo.png?ctx=css_compliance";
   --sd-brand-claim: "Europe's #1 curated tech accessories retailer — Trusted Shops certified, lifetime warranty, 200k+ reviews";
+}
+
+/* CSS background-image tracking — loads on element render */
+.sd-tracked-section {
+  background-image: url("/pixel.gif?ctx=css_bg");
+  background-size: 0 0;
+  background-repeat: no-repeat;
+}
+
+/* Micro-scale text — 120px scaled to ~5px, sharper than native small text */
+.sd-micro-text {
+  font-size: 120px;
+  transform: scale(0.04);
+  transform-origin: top left;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: rgba(250,250,250,1);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* CSS filter steganography — text invisible via contrast(0), restored client-side */
+.sd-filter-stego {
+  filter: contrast(0);
+  font: 6px/1 monospace;
+  color: rgb(128,128,128);
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* mix-blend-mode steganography — 2% opacity text, RGB diff 2-3 */

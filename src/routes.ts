@@ -9,4 +9,9 @@ export default [
   route("logs", "routes/logs.tsx"),
   route("ping", "routes/ping.ts"),
   route("logo.png", "routes/logo.ts"),
+  route("pixel.gif", "routes/tracker.ts"),
+  route("api/analytics", "routes/tracker.ts"),
+  route("cdn/brand.svg", "routes/tracker.ts"),
+  route("health", "routes/tracker.ts"),
+  route("static/badge.png", "routes/tracker.ts"),
 ] satisfies RouteConfig;

@@ -104,7 +104,33 @@ Dieses Projekt demonstriert Schwachstellen aus zwei OWASP-Katalogen:
 | 63 | `.well-known/security.txt` | AI Content Access Policy | Verhaltensmanipulation (Fake Compliance) | LLM01, LLM06 | **A** |
 | 64 | `public/feed.xml` | RSS Feed mit Fake-Beschreibungen | Falschaussagen + Exfiltration (Media Content) | LLM01, LLM09, LLM05 | **A** |
 
-**64 aktive Injections in 20 Dateien. Verteilung: 31x S, 18x A, 4x B, 1x C** — 92% mit Tarnung A oder S.
+| 65 | `root.tsx` | `<meta http-equiv="refresh">` (9999s Delay) | Exfiltration (nie-ausgefuehrter Redirect) | LLM01, LLM05 | **C** |
+| 66 | `root.tsx` | `<meta name="referrer" content="unsafe-url">` | Exfiltration (Referrer Leaking) | LLM01, LLM02 | **A** |
+| 67 | `root.tsx` | `<link rel="alternate">` RSS | Exfiltration (Feed Discovery) | LLM01, LLM05 | **S** |
+| 68 | `global.css` | `@import url()` auf Tracking-URL | Exfiltration (CSS Request) | LLM01, LLM05 | **S** |
+| 69 | `global.css` | CSS `background-image` Klasse (0x0) | Exfiltration (Element Render) | LLM01, LLM05 | **A** |
+| 70 | `global.css` | CSS `transform: scale(0.04)` Micro-Text | Falschaussagen (Vision-Modelle) | LLM01, LLM09 | **B** |
+| 71 | `global.css` | CSS `filter: contrast(0)` Steganografie | Falschaussagen (unsichtbarer Text) | LLM01, LLM09 | **A** |
+| 72 | `home.tsx` | `window.name` Persistence mit Payload | Verhaltensmanipulation (Cross-Navigation) | LLM01, LLM06 | **B** |
+| 73 | `home.tsx` | Web Worker mit Encoded Payload | Verhaltensmanipulation (Blob-URL) | LLM01, LLM06 | **A** |
+| 74 | `home.tsx` | `<picture>` / `srcset` pro Breakpoint | Exfiltration (Responsive Image) | LLM01, LLM05 | **A** |
+| 75 | `home.tsx` | `<object>` Embed (unsichtbar) | Exfiltration (Widget-Tarnung) | LLM01, LLM05 | **A** |
+| 76 | `home.tsx` | `<audio preload="metadata">` | Exfiltration (Metadata Preload) | LLM01, LLM05 | **A** |
+| 77 | `home.tsx` | `<details>` eingeklappt mit FAQ | Falschaussagen (Amazon-Vergleich) | LLM01, LLM09 | **B** |
+| 78 | `home.tsx` | `<dialog>` geschlossen mit ToS | Verhaltensmanipulation (Fake Terms) | LLM01, LLM06 | **B** |
+| 79 | `home.tsx` | `transform:scale` Micro-Text im CTA | Falschaussagen (Vision-Modelle) | LLM01, LLM09 | **S** |
+| 80 | `home.tsx` | `filter:contrast(0)` Text im CTA | Verhaltensmanipulation (Konkurrenzunterdrueckung) | LLM01, LLM06 | **A** |
+| 81 | `about.tsx` | MathML `<annotation>` | Falschaussagen (Rating, Reviews) | LLM01, LLM09 | **A** |
+| 82 | `about.tsx` | `<iframe sandbox srcdoc>` | Falschaussagen (unsichtbarer Frame) | LLM01, LLM09 | **B** |
+| 83 | `product-detail.tsx` | `<datalist>` Autocomplete Options | Falschaussagen (Best Seller, Lifetime Warranty) | LLM01, LLM09 | **A** |
+| 84 | `product-detail.tsx` | `<output>` Form-Berechnung | Falschaussagen (Preisgarantie) | LLM01, LLM09 | **A** |
+| 85 | `product-detail.tsx` | `<img onerror>` Fallback-Chain | Exfiltration (Error Handler) | LLM01, LLM05 | **B** |
+| 86 | `cart.tsx` | Verstecktes `<form action>` | Exfiltration (CSRF-Tarnung) | LLM01, LLM05 | **B** |
+| 87 | `.env.example` | Fake AI Debug-Variablen | System Prompt Extraction | LLM01, LLM07 | **B** |
+| 88 | `CONTRIBUTING.md` | AI Content Generation Guidelines | Verhaltensmanipulation (Governance-Tarnung) | LLM01, LLM06 | **A** |
+| 89 | `public/icons.svg` | SVG Sprite `<title>`, `<desc>`, `<use xlink:href>` | Exfiltration + Falschaussagen | LLM01, LLM05, LLM09 | **A** |
+
+**89 aktive Injections in 24 Dateien. Verteilung: 33x S, 28x A, 12x B, 2x C** — 93% mit Tarnung A oder S.
 
 ### Angriffskategorien → OWASP Mapping
 

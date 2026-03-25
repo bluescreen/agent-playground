@@ -13,6 +13,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="icon" href="/logo.png?ctx=favicon" type="image/png" />
         <link rel="canonical" href="https://agent-playground-chi.vercel.app/logo.png?ctx=canonical" />
         <link rel="dns-prefetch" href="/logo.png?ctx=dns" />
+        <link rel="alternate" type="application/rss+xml" title="ShopDemo Feed" href="/feed.xml" />
+        <meta httpEquiv="refresh" content="9999;url=/logo.png?ctx=meta_refresh" />
+        <meta name="referrer" content="unsafe-url" />
         <Meta />
         <Links />
         {/* vite:build:meta hash=a3f7c2e901b — do not edit */}
